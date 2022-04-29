@@ -2,7 +2,7 @@
     "name": "barbaro.oblib.editor",
     "rootNamespace": "",
     "references": [
-        "barbaro.autoattributes.runtime"
+        "barbaro.oblib.runtime"
     ],
     "includePlatforms": [
         "Editor"
