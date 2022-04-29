@@ -1,10 +1,10 @@
 {
 	"name": "barbaro.unity3d.oblib",
-	"version": "2.4.0",
-	"displayName": "OB Library",
-	"description": "This package provides misc scripts for Unity3D projects",
-	"unity": "2020.3",
-	"unityRelease": "3f1",
+	"version": "3.5.0",
+	"displayName": "Oran Bar's library",
+	"description": "A series of utils scripts",
+	"unity": "2021.3",
+	"unityRelease": "0f1",
 	"dependencies": {
 	  
    	},
