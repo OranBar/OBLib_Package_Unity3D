@@ -9,7 +9,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
 		get {
 			if (_instance == null)
 			{
-				T[] instancesInScene = GameObjectEx.FindAllOfType<T>();
+				T[] instancesInScene = GameObjectEx.FindAllOfType_IncludingInactiveObjects<T>();
 				if (instancesInScene.Length >= 2)
 				{
 					throw new Exception("Found " + instancesInScene.Length + " instances of " + typeof(T).Name + ", who is supposed to be a Singleton");

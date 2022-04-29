@@ -4,7 +4,7 @@ using UnityEngine.Events;
 [Serializable]
 public class OBEvent : UnityEvent{
 
-	public event Action Event;
+	public event Action Event = ( ) => { };
 
 
 	public static OBEvent operator +(OBEvent e, Action a) {
@@ -28,8 +28,8 @@ public class OBEvent : UnityEvent{
 [Serializable]
 public class OBEvent<K, T> : UnityEvent<T> where K : OBEvent<K, T>{
 
-	public event Action<T> Event;
-	
+	public event Action<T> Event = (_) => { };
+
 	public static K operator +(OBEvent<K, T> e, Action<T> a) {
 		e.Event += a;
 		return (K) e; 		
@@ -51,7 +51,7 @@ public class OBEvent<K, T> : UnityEvent<T> where K : OBEvent<K, T>{
 [Serializable]
 public class OBEvent<K, T, U> : UnityEvent<T, U> where K : OBEvent<K, T, U> {
 
-	public event Action<T, U> Event;
+	public event Action<T, U> Event = ( _, __ ) => { };
 
 
 	public static K operator +(OBEvent<K, T, U> e, Action<T, U> a) {
@@ -75,7 +75,7 @@ public class OBEvent<K, T, U> : UnityEvent<T, U> where K : OBEvent<K, T, U> {
 [Serializable]
 public class OBEvent<K, T, U, V> : UnityEvent<T, U, V> where K : OBEvent<K, T, U, V> {
 
-	public event Action<T, U, V> Event;
+	public event Action<T, U, V> Event = ( _, __, ___ ) => { };
 
 
 	public static K operator +(OBEvent<K, T, U, V> e, Action<T, U, V> a) {

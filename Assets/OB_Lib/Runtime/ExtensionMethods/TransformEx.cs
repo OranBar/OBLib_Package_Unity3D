@@ -370,18 +370,40 @@ public static class TransformEx {
 		return children;
 	}
 
-	public static List<Transform> GetAllChildren(this Transform transform, bool alsoInactiveObjects)
+	public static List<Transform> GetAllChildren(this Transform transform, bool alsoInactiveObjects, bool recursive){
+		if(recursive){
+			return transform.GetAllChildren_Recursive(alsoInactiveObjects);
+		} else {
+			return transform.GetAllChildren_NonRecursive(alsoInactiveObjects);
+		}
+	}
+
+	public static List<Transform> GetAllChildren_NonRecursive(this Transform transform, bool alsoInactiveObjects)
     {
         var children = new List<Transform>();
         Transform[] tmpChildren = transform.GetComponentsInChildren<Transform>(alsoInactiveObjects);
-        children = tmpChildren.Skip(0).ToList();
+        children = tmpChildren.Skip(1).ToList(); //Take myself out of the list
+		children = children.Where(c => c.transform.parent == transform).ToList(); //Remove all nefews 
+
+		return children;
+    }
+
+	public static List<Transform> GetAllChildren_Recursive(this Transform transform, bool alsoInactiveObjects)
+    {
+        var children = new List<Transform>();
+        Transform[] tmpChildren = transform.GetComponentsInChildren<Transform>(alsoInactiveObjects);
+        children = tmpChildren.Skip(1).ToList();
 
         return children;
     }
 
-	public static Transform FindChildWithTag(this Transform transform, string tag)
+	public static Transform FindChildWithTag(this Transform transform, string tag, bool includeInactive=false)
 	{
-		return transform.GetAllChildren(false).FirstOrDefault(child => child.tag == tag);
+		return transform.GetAllChildren_Recursive(includeInactive).FirstOrDefault(child => child.tag == tag);
+	}
+
+	public static List<Transform> FindChildrenWithTag( this Transform transform, string tag, bool includeInactive=false ) {
+		return transform.GetAllChildren_Recursive(includeInactive).Where(child => child.tag == tag).ToList();
 	}
 
     public static void Sort(this Transform transform, Func<Transform, IComparable> sortFunction) {
@@ -462,4 +484,19 @@ public static class TransformEx {
 
     #endregion
 
+	public static void SetPivotToChildPosition(this Transform t, Transform targetPivot){
+		Debug.Assert(t.GetAllChildren_Recursive(false).Contains(targetPivot), "Target Pivot needs to be a child of the calling transform");
+		// In verita', se l'asserzione non va a asegno, potrei sistemare la faccenda da codice con un setparent?
+
+		List<Transform> myChildren = t.GetAllChildren_NonRecursive(false);
+
+		// SetParent(null) => diventa oggetto di scena, senza padre.
+		myChildren.ForEach( c => c.SetParent(null) );
+
+		// Sposto la transform di partenza (ora senza figli) nella posizione corretta
+		t.position = targetPivot.position;
+
+		// Riparento tutti i figli alla transform
+		myChildren.ForEach(c => c.SetParent(t));
+	}
 }

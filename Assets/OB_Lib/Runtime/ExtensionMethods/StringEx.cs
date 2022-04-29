@@ -76,7 +76,7 @@ public static class StringEx
     /// <returns></returns>
     public static string Skip(this string value, int count)
     {
-        return value.Substring(Math.Min(count, value.Length) - 1);
+        return value.Substring(Math.Min(count, value.Length - 1) );
     }
 
     // Skip
@@ -441,4 +441,23 @@ public static class StringEx
         // get the substring
         return SubstringFromXToY(tempStr, start, end);
     }
+
+
+	/// <summary>
+	/// Aggiunge la data alla fine del nome del file.
+	/// Cerca il carattere '.' nel file, che ci si aspetta essere prima dell'estensione,
+	/// Ed aggiunge la data prima di quel punto.
+	/// Es. filename.json => filename_yMMdd_HHmm.json
+	/// </summary>
+	/// <param name="fileName_withExtension">Nome file al quale aggiungere alla data (non puo' contenere piu' di un punto)</param>
+	/// <returns></returns>
+	public static string AppendDateToFileName( this string fileName_withExtension ) {
+		UnityEngine.Debug.Assert(fileName_withExtension.Where(c => c == '.').Count() == 1,
+			"Nomi di file che usano il carattere '.' non sono supportati da questo metodo");
+
+		var datetime = DateTime.UtcNow.ToString("_yMMdd_HHmm");
+		var tmp = fileName_withExtension.Split('.');
+		var filename_with_date_andExtension = tmp [0] + datetime + "." + tmp [1];
+		return filename_with_date_andExtension;
+	}
 }

@@ -1,11 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 public class RemoveMissingScripts : EditorWindow {
-	[MenuItem("Window/FindMissingScripts")]
-	public static void ShowWindow() {
-		EditorWindow.GetWindow(typeof(RemoveMissingScripts));
-	}
-
+	
 	public void OnGUI() {
 		if (GUILayout.Button("Find Missing Scripts in selected prefabs")) {
 			FindInSelected();
@@ -37,7 +33,7 @@ public class RemoveMissingScripts : EditorWindow {
 		Debug.Log(string.Format("Searched {0} GameObjects, {1} components, found {2} missing", go_count, components_count, missing_count));
 	}
 
-	[MenuItem("Auto/Remove Missing Scripts Recursively")]
+	[MenuItem("Auto/Remove Missing Scripts From Selection")]
 	private static void FindAndRemoveMissingInSelected() {
 		var deepSelection = EditorUtility.CollectDeepHierarchy(Selection.gameObjects);
 		int compCount = 0;

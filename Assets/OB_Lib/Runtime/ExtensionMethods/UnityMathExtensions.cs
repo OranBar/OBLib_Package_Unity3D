@@ -67,6 +67,10 @@ public static class UnityMathExtensions
         return Vector3.Distance(start.position, dest.position);
     }
 
+	public static float DistanceTo(this Transform start, Vector3 dest) {
+		return Vector3.Distance(start.position, dest);
+	}
+
     // DistanceTo
     #endregion
 

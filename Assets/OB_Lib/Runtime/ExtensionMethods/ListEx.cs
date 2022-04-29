@@ -109,4 +109,49 @@ public static class ListEx
 
     // DequeueOrNull
     #endregion
+
+    public static T Pop<T>(this List<T> list){
+        if(list.Count == 0){
+			throw new InvalidOperationException("Trying to Pop an element from an empty list");
+		}
+		var result = list.Last();
+		list.RemoveAt( list.Count -1 );
+		return result;
+	}
+
+	public static void Push<T>( this List<T> list, T element ) {
+		list.Add( element );
+	}
+
+    public static T GetRandomElement<T>(this List<T> list){
+		int rndIndex = UnityEngine.Random.Range(0, list.Count);
+		return list [rndIndex];
+	}
+
+	public static List<T> GetRandomElements<T>( this List<T> list, int noOfElements ) {
+        List<T> result = new List<T>();
+		for(int i = 0; i < noOfElements; i++){
+			result.Add(GetRandomElement(list));
+		}
+		return result;
+	}
+
+	public static List<T> GetRandomElements_Distinct<T>( this List<T> list, int noOfElements ) {
+		if (list.Count < noOfElements) {
+			throw new Exception($"Invalid noOfElements parameter ({noOfElements}). Has to be < list.Count ({list.Count})");
+		}
+
+		List<T> listCopy = new List<T>(list);
+		List<T> result = new List<T>();
+		for (int i = 0; i < noOfElements; i++) {
+			T rndElement = listCopy.GetRandomElement();
+			result.Add(rndElement);
+			listCopy.Remove(rndElement);
+		}
+		return result;
+	}
+
+    public static IEnumerable<T> ExceptElement<T>( this List<T> list, T elementToRemove ){
+		return list.Where(e => e.Equals(elementToRemove) == false);
+	}
 }

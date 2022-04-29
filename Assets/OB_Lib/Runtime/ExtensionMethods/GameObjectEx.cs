@@ -1,20 +1,37 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using BarbarO.ExtensionMethods;
+using UnityEngine;
 using SceneManager = UnityEngine.SceneManagement.SceneManager;
 
 public static class GameObjectEx
 {
+	#if UNITY_EDITOR
+	public static void RemoveAllComponents_Editor(this GameObject go){
+		foreach(var curr_comp in go.GetComponents<Component>()){
+			if (curr_comp is Transform) { continue; }
 
+			GameObject.DestroyImmediate(curr_comp);
+		}
+	}
+#endif
+
+	public static void RemoveAllComponents( this GameObject go ) {
+		foreach (var curr_comp in go.GetComponents<Component>())
+		{
+			if (curr_comp is Transform) { continue; }
+
+			GameObject.Destroy(curr_comp);
+		}
+	}
 	/// <summary>
 	/// Same as GameObject.FindObjectsOfType<T>, but also get inactive objects
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <returns></returns>
-	public static T[] FindAllOfType<T>() where T : UnityEngine.Object
+	public static T[] FindAllOfType_IncludingInactiveObjects<T>() where T : UnityEngine.Object
 	{
 		if (typeof(T) == typeof(GameObject))
 		{
@@ -24,6 +41,10 @@ public static class GameObjectEx
 		return Resources.FindObjectsOfTypeAll<T>()
 			.Where(obj => obj.GameObject().scene == SceneManager.GetActiveScene())
 			.ToArray();
+	}
+
+	public static T[] FindAll_InterfaceImplementors<T>(){
+		return GameObject.FindObjectsOfType<MonoBehaviour>().OfType<T>().ToArray();
 	}
 	
 	#region AddOrGetComponent

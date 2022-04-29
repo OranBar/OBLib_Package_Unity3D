@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Collections.Generic;
 using System.Text;
 
 /* *****************************************************************************
@@ -243,7 +243,6 @@ public static class LINQEnumerableEx
     {
         return source.OrderBy(n => Guid.NewGuid());
     }
-
     // Shuffle
     #endregion
 
@@ -347,6 +346,13 @@ public static class LINQEnumerableEx
         return collection.TakeWhile(item => !endCondition(item));
     }
 
-    // TakeUntil
+	// TakeUntil
+	#endregion
+
+
+    #region ToQueue
+	public static Queue<T> ToQueue<T>( this IEnumerable<T> collection ) {
+		return new Queue<T>(collection);
+	}
     #endregion
 }
