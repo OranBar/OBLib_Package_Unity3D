@@ -1,5 +1,5 @@
 {
-    "name": "barbaro.autoattributes.runtime",
+    "name": "barbaro.oblib.runtime",
     "rootNamespace": "",
     "references": [],
     "includePlatforms": [],
