@@ -27,18 +27,18 @@ public static class TransformEx {
 	}
 
 	public static void SetXY(this Transform transform, float x, float y) {
-		var newPosition = new Vector3(x, y, transform.position.z);
-		transform.position = newPosition;
+		transform.SetX(x);
+		transform.SetY(y);
 	}
 
 	public static void SetXZ(this Transform transform, float x, float z) {
-		var newPosition = new Vector3(x, transform.position.y, z);
-		transform.position = newPosition;
+		transform.SetX(x);
+		transform.SetZ(z);
 	}
 
 	public static void SetYZ(this Transform transform, float y, float z) {
-		var newPosition = new Vector3(transform.position.x, y, z);
-		transform.position = newPosition;
+		transform.SetY(y);
+		transform.SetZ(z);
 	}
 
 	public static void SetXYZ(this Transform transform, float x, float y, float z) {
@@ -49,37 +49,42 @@ public static class TransformEx {
 	public static void TranslateX(this Transform transform, float x) {
 		var offset = new Vector3(x, 0, 0);
 
-		transform.position += offset;
+		transform.Translate(offset);
 	}
 
 	public static void TranslateY(this Transform transform, float y) {
 		var offset = new Vector3(0, y, 0);
 
-		transform.position += offset;
+		transform.Translate(offset);
 	}
 
 	public static void TranslateZ(this Transform transform, float z) {
 		var offset = new Vector3(0, 0, z);
+
 		transform.position += offset;
 	}
 
 	public static void TranslateXY(this Transform transform, float x, float y) {
 		var offset = new Vector3(x, y, 0);
+
 		transform.position += offset;
 	}
 
 	public static void TranslateXZ(this Transform transform, float x, float z) {
 		var offset = new Vector3(x, 0, z);
+
 		transform.position += offset;
 	}
 
 	public static void TranslateYZ(this Transform transform, float y, float z) {
 		var offset = new Vector3(0, y, z);
+
 		transform.position += offset;
 	}
 
 	public static void TranslateXYZ(this Transform transform, float x, float y, float z) {
 		var offset = new Vector3(x, y, z);
+
 		transform.position += offset;
 	}
 
@@ -267,27 +272,39 @@ public static class TransformEx {
 	}
 
 	public static void SetRotationX(this Transform transform, float angle) {
-		transform.eulerAngles = new Vector3(angle, 0, 0);
+		var targetRotation = transform.eulerAngles + new Vector3(angle, 0, 0);
+		
+		transform.eulerAngles = targetRotation;
 	}
 
 	public static void SetRotationY(this Transform transform, float angle) {
-		transform.eulerAngles = new Vector3(0, angle, 0);
+		var targetRotation = transform.eulerAngles + new Vector3(0, angle, 0);
+		
+		transform.eulerAngles = targetRotation;
 	}
 
 	public static void SetRotationZ(this Transform transform, float angle) {
-		transform.eulerAngles = new Vector3(0, 0, angle);
+		var targetRotation = transform.eulerAngles + new Vector3(0, 0, angle);
+		
+		transform.eulerAngles = targetRotation;
 	}
 
 	public static void SetLocalRotationX(this Transform transform, float angle) {
-		transform.localRotation = Quaternion.Euler(new Vector3(angle, 0, 0));
+		var targetRotation = transform.localEulerAngles + new Vector3(angle, 0, 0);
+		
+		transform.localEulerAngles = targetRotation;
 	}
 
 	public static void SetLocalRotationY(this Transform transform, float angle) {
-		transform.localRotation = Quaternion.Euler(new Vector3(0, angle, 0));
+		var targetRotation = transform.localEulerAngles + new Vector3(0, angle, 0);
+		
+		transform.localEulerAngles = targetRotation;
 	}
 
 	public static void SetLocalRotationZ(this Transform transform, float angle) {
-		transform.localEulerAngles =  new Vector3(0, 0, angle);
+		var targetRotation = transform.localEulerAngles + new Vector3(0, 0, angle);
+		
+		transform.localEulerAngles = targetRotation;
 	}
 
 	public static void ResetRotation(this Transform transform) {
