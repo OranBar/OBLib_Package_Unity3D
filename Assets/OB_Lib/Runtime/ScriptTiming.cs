@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Auto.Utils{
+namespace BarbarO.Utils{
 	[AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
 	public class ScriptTiming : Attribute
 	{
